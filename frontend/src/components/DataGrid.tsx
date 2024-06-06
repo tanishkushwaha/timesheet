@@ -1,5 +1,6 @@
-import { Input, Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { Input, Select, Text, useToast } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+import Autocomplete from "./Autocomplete"
 
 type Entries = {
   mon: { task: string, timeIn: string, timeOut: string },
@@ -19,6 +20,8 @@ const DataGrid = () => {
   }
 
   const [entries, setEntries] = useState<Entries>(defaultEntries)
+  const [update, setUpdate] = useState(false)
+  const toast = useToast()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, entryKey: string) => {
     setEntries(prevEntries => (
@@ -26,8 +29,37 @@ const DataGrid = () => {
         ...prevEntries, [entryKey]: { ...prevEntries[entryKey as keyof Entries], [e.target.name]: e.target.value }
       }
     ))
+    setUpdate(true)
   }
 
+  // Auto Save
+  useEffect(() => {
+    if (!update) return
+
+    const interval = setInterval(() => {
+      console.log('Auto Saving...')
+      toast({
+        title: 'Auto Saved',
+        status: 'success',
+        duration: 3000,
+        isClosable: false,
+        position: 'bottom-left',
+        variant: 'subtle'
+      })
+      setUpdate(false)
+    }, 5000)
+
+    return () => clearInterval(interval)
+
+  }, [update])
+
+  const suggestions = [
+    'Leave',
+    'Knowledge Development',
+    'Training',
+    'Official Travel',
+    'Customer Meeting'
+  ];
 
   return (
     <>
@@ -49,7 +81,8 @@ const DataGrid = () => {
             <td><Text p='1rem' align='center'>Mon</Text></td>
             <td><Text p='1rem' align='center'>3 Jun 24</Text></td>
             <td>
-              <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} />
+              {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
+              <Autocomplete suggestions={suggestions} name='task' />
             </td>
             <td>
               <Input border='none' borderRadius='0px' type='time' name='timeIn' value={entries.mon.timeIn} onChange={(e) => handleChange(e, 'mon')} />
@@ -129,6 +162,16 @@ const DataGrid = () => {
         </tbody>
       </table>
     </>
+  )
+}
+
+const TaskSelect = () => {
+  return (
+    <Select size='lg' value='option' border='none'>
+      <option value='option1'>Option 1</option>
+      <option value='option2'>Option 2</option>
+      <option value='option3'>Option 3</option>
+    </Select>
   )
 }
 
