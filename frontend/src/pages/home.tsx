@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 
 const home = () => {
-  const [month, setMonth] = useState('')
+  const [month, setMonth] = useState('2024-06')
   const [totalWeeks, setTotalWeeks] = useState(0)
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const home = () => {
 
 const WeekPicker = ({ totalWeeks }: { totalWeeks: number }) => {
   return (
-    <Select placeholder='Select Week' w='300px'>
+    <Select placeholder='Select Week' w='300px' value='week_2'>
       <option value='week_1'>Week 1</option>
       <option value='week_2'>Week 2</option>
       <option value='week_3'>Week 3</option>
