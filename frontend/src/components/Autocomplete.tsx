@@ -1,14 +1,27 @@
 // Autocomplete.js
-import { useState, useRef } from 'react';
-import { Box, Input, List, ListItem, ListIcon, useOutsideClick } from '@chakra-ui/react';
-import { CheckIcon } from '@chakra-ui/icons';
+import { useState, useRef, useEffect } from 'react';
+import { Box, Input, List, ListItem, useOutsideClick, useToast } from '@chakra-ui/react';
 
-const Autocomplete = ({ suggestions }: { suggestions: string[] }) => {
+type Props = {
+  suggestions: string[];
+  value?: string;
+};
+
+
+const Autocomplete = ({ suggestions, value }: Props) => {
   const [inputValue, setInputValue] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
+  const [update, setUpdate] = useState(false)
+  const toast = useToast()
+
+  useEffect(() => {
+    if (value) {
+      setInputValue(value)
+    }
+  }, [])
 
   useOutsideClick({
     ref: ref,
@@ -18,6 +31,7 @@ const Autocomplete = ({ suggestions }: { suggestions: string[] }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
+    setUpdate(true)
     if (value) {
       const filtered = suggestions.filter((suggestion) =>
         suggestion.toLowerCase().includes(value.toLowerCase())
@@ -35,6 +49,27 @@ const Autocomplete = ({ suggestions }: { suggestions: string[] }) => {
     setFilteredSuggestions([]);
     setIsOpen(false);
   };
+
+  // Auto Save
+  useEffect(() => {
+    if (!update) return
+
+    const interval = setInterval(() => {
+      console.log('Auto Saving...')
+      toast({
+        title: 'Auto Saved',
+        status: 'success',
+        duration: 3000,
+        isClosable: false,
+        position: 'bottom-left',
+        variant: 'subtle'
+      })
+      setUpdate(false)
+    }, 5000)
+
+    return () => clearInterval(interval)
+
+  }, [update])
 
   return (
     <Box position="relative" ref={ref}>

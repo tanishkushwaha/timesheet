@@ -1,5 +1,5 @@
-import { Input, Select, Text, useToast } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { Box, Input, List, ListItem, Select, Text, useOutsideClick, useToast } from "@chakra-ui/react"
+import { useEffect, useRef, useState } from "react"
 import Autocomplete from "./Autocomplete"
 
 type Entries = {
@@ -58,7 +58,8 @@ const DataGrid = () => {
     'Knowledge Development',
     'Training',
     'Official Travel',
-    'Customer Meeting'
+    'Customer Meeting',
+    'Weekend'
   ];
 
   return (
@@ -76,13 +77,32 @@ const DataGrid = () => {
             <th>Duration</th>
           </tr>
 
+          {/* SUNDAY */}
+          <tr>
+            <td><Text p='1rem' align='center'>Sun</Text></td>
+            <td><Text p='1rem' align='center'>2 Jun 24</Text></td>
+            <td>
+              {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
+              <Autocomplete suggestions={suggestions} value='Weekend - Sunday' />
+            </td>
+            <td>
+              <Input border='none' borderRadius='0px' type='time' name='timeIn' value={entries.mon.timeIn} onChange={(e) => handleChange(e, 'moon')} />
+            </td>
+            <td>
+              <Input border='none' borderRadius='0px' type='time' name='timeOut' />
+            </td>
+            <td>
+              <Text p='1rem' align='center'></Text>
+            </td>
+          </tr>
+
           {/* MONDAY */}
           <tr>
             <td><Text p='1rem' align='center'>Mon</Text></td>
             <td><Text p='1rem' align='center'>3 Jun 24</Text></td>
             <td>
               {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
-              <Autocomplete suggestions={suggestions} name='task' />
+              <Autocomplete suggestions={suggestions} />
             </td>
             <td>
               <Input border='none' borderRadius='0px' type='time' name='timeIn' value={entries.mon.timeIn} onChange={(e) => handleChange(e, 'mon')} />
@@ -159,20 +179,31 @@ const DataGrid = () => {
             <td><Text p='1rem' align='center'></Text></td>
           </tr>
 
+          {/* SATURDAY */}
+          <tr>
+            <td><Text p='1rem' align='center'>Sat</Text></td>
+            <td><Text p='1rem' align='center'>8 Jun 24</Text></td>
+            <td>
+              {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
+              <Autocomplete suggestions={suggestions} value='Weekend - Saturday' />
+            </td>
+            <td>
+              <Input border='none' borderRadius='0px' type='time' name='timeIn' value={entries.mon.timeIn} onChange={(e) => handleChange(e, 'mon')} />
+            </td>
+            <td>
+              <Input border='none' borderRadius='0px' type='time' name='timeOut' value={entries.mon.timeOut} onChange={(e) => handleChange(e, 'mon')} />
+            </td>
+            <td>
+              <Text p='1rem' align='center'></Text>
+            </td>
+          </tr>
+
         </tbody>
       </table>
     </>
   )
 }
 
-const TaskSelect = () => {
-  return (
-    <Select size='lg' value='option' border='none'>
-      <option value='option1'>Option 1</option>
-      <option value='option2'>Option 2</option>
-      <option value='option3'>Option 3</option>
-    </Select>
-  )
-}
+
 
 export default DataGrid

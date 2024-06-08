@@ -7,50 +7,46 @@ const home = () => {
   const [month, setMonth] = useState('2024-06')
   const [totalWeeks, setTotalWeeks] = useState(0)
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const firstDay = (new Date(month).getDay() + 6) % 7
-    console.log('First Day:', firstDay);
+  //   const firstDay = (new Date(month).getDay() + 6) % 7
+  //   console.log('First Day:', firstDay);
 
-    let weeks = 5
-    if (firstDay > 5) {
-      weeks = 6
-    }
+  //   let weeks = 5
+  //   if (firstDay > 5) {
+  //     weeks = 6
+  //   }
 
-    setTotalWeeks(weeks)
+  //   setTotalWeeks(weeks)
 
-  }, [month])
+  // }, [month])
 
 
   return (
     <>
-      <Flex justifyContent='center' p='2rem' pt='3rem' direction='column' gap='3rem'>
+      <Flex justifyContent='center' p='2rem' pt='3rem' direction='column' gap='2rem'>
         <Flex justifyContent='space-between' w='100%'>
           <Input type='month' w='300px' value={month} onChange={(e) => setMonth(e.target.value)} />
-          <WeekPicker totalWeeks={totalWeeks} />
+          <WeekPicker />
           <Button w='300px'>Freeze Month</Button>
         </Flex>
         <DataGrid />
-      </Flex>
-      <Flex px='2rem' justifyContent='flex-end'>
-        <Button w='8rem' colorScheme='blue'>Save</Button>
       </Flex>
     </>
   )
 }
 
-const WeekPicker = ({ totalWeeks }: { totalWeeks: number }) => {
+const WeekPicker = ({ totalWeeks }: { totalWeeks?: number }) => {
   return (
-    <Select placeholder='Select Week' w='300px' value='week_2'>
-      <option value='week_1'>Week 1</option>
-      <option value='week_2'>Week 2</option>
-      <option value='week_3'>Week 3</option>
-      <option value='week_4'>Week 4</option>
-      <option value='week_5'>Week 5</option>
-      {totalWeeks > 5 && (
+    <Select placeholder='Select Week' w='300px' value='week_1'>
+      <option value='week_1'>Week 1 (2 Jun - 8 Jun)</option>
+      <option value='week_2'>Week 2 (9 Jun - 15 Jun)</option>
+      <option value='week_3'>Week 3 (16 Jun - 22 Jun)</option>
+      <option value='week_4'>Week 4 (23 Jun - 29 Jun)</option>
+      {/* {totalWeeks > 5 && (
         <option value='week_6'>Week 6</option>
 
-      )}
+      )} */}
     </Select>
   )
 }
