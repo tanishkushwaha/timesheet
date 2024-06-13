@@ -1,52 +1,39 @@
 import { Button, Flex, Input, Select } from "@chakra-ui/react"
 import DataGrid from "../components/DataGrid"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { getWeeks } from "../utils/DateHelper"
 
 
 const home = () => {
   const [month, setMonth] = useState('2024-06')
-  const [totalWeeks, setTotalWeeks] = useState(0)
-
-  // useEffect(() => {
-
-  //   const firstDay = (new Date(month).getDay() + 6) % 7
-  //   console.log('First Day:', firstDay);
-
-  //   let weeks = 5
-  //   if (firstDay > 5) {
-  //     weeks = 6
-  //   }
-
-  //   setTotalWeeks(weeks)
-
-  // }, [month])
-
+  const [week, setWeek] = useState<string | undefined>(undefined)
 
   return (
     <>
       <Flex justifyContent='center' p='2rem' pt='3rem' direction='column' gap='2rem'>
         <Flex justifyContent='space-between' w='100%'>
           <Input type='month' w='300px' value={month} onChange={(e) => setMonth(e.target.value)} />
-          <WeekPicker />
+          <WeekPicker monthStr={month} setWeek={setWeek} />
           <Button w='300px'>Freeze Month</Button>
         </Flex>
-        <DataGrid />
+        <DataGrid week={week} />
       </Flex>
     </>
   )
 }
 
-const WeekPicker = ({ totalWeeks }: { totalWeeks?: number }) => {
-  return (
-    <Select placeholder='Select Week' w='300px' value='week_1'>
-      <option value='week_1'>Week 1 (2 Jun - 8 Jun)</option>
-      <option value='week_2'>Week 2 (9 Jun - 15 Jun)</option>
-      <option value='week_3'>Week 3 (16 Jun - 22 Jun)</option>
-      <option value='week_4'>Week 4 (23 Jun - 29 Jun)</option>
-      {/* {totalWeeks > 5 && (
-        <option value='week_6'>Week 6</option>
+const WeekPicker = ({ monthStr, setWeek }: { monthStr: string, week?: string, setWeek: React.Dispatch<React.SetStateAction<string | undefined>> }) => {
+  const month = new Date(monthStr)
+  const weeks = getWeeks(month)
 
-      )} */}
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+  return (
+    <Select w='300px' placeholder="Select Week" onChange={(e) => setWeek(e.target.value)}>
+      {weeks.map((week, index) => (
+        <option value={week}>{`Week ${index + 1} (${new Date(week[0]).getDate()} ${monthNames[new Date(week[1]).getMonth()]} - ${new Date(week[6]).getDate()} ${monthNames[new Date(week[6]).getMonth()]})`}</option>
+
+      ))}
     </Select>
   )
 }

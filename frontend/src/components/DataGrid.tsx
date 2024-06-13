@@ -1,6 +1,7 @@
 import { Box, Input, List, ListItem, Select, Text, useOutsideClick, useToast } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import Autocomplete from "./Autocomplete"
+import { getDateString } from "../utils/DateHelper"
 
 type Entries = {
   mon: { task: string, timeIn: string, timeOut: string },
@@ -10,7 +11,14 @@ type Entries = {
   fri: { task: string, timeIn: string, timeOut: string },
 }
 
-const DataGrid = () => {
+// Complete this
+type EntryType = {
+
+}
+
+const DataGrid = ({ week }: { week: string | undefined }) => {
+  const days = week?.split(',')
+
   const defaultEntries = {
     mon: { task: '', timeIn: '', timeOut: '' },
     tue: { task: '', timeIn: '', timeOut: '' },
@@ -18,6 +26,9 @@ const DataGrid = () => {
     thu: { task: '', timeIn: '', timeOut: '' },
     fri: { task: '', timeIn: '', timeOut: '' },
   }
+
+  // Complete this
+  const [entry_0, setEntry_0] = useState({})
 
   const [entries, setEntries] = useState<Entries>(defaultEntries)
   const [update, setUpdate] = useState(false)
@@ -79,8 +90,12 @@ const DataGrid = () => {
 
           {/* SUNDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Sun</Text></td>
-            <td><Text p='1rem' align='center'>2 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Sun</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[0])}</Text>
+            </td>
             <td>
               {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
               <Autocomplete suggestions={suggestions} value='Weekend - Sunday' />
@@ -98,8 +113,12 @@ const DataGrid = () => {
 
           {/* MONDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Mon</Text></td>
-            <td><Text p='1rem' align='center'>3 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Mon</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[1])}</Text>
+            </td>
             <td>
               {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
               <Autocomplete suggestions={suggestions} />
@@ -117,8 +136,12 @@ const DataGrid = () => {
 
           {/* TUESDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Tue</Text></td>
-            <td><Text p='1rem' align='center'>4 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Tue</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[2])}</Text>
+            </td>
             <td>
               <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.tue.task} onChange={(e) => handleChange(e, 'tue')} />
             </td>
@@ -133,8 +156,12 @@ const DataGrid = () => {
 
           {/* WEDNESDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Wed</Text></td>
-            <td><Text p='1rem' align='center'>5 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Wed</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[3])}</Text>
+            </td>
             <td>
               <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.wed.task} onChange={(e) => handleChange(e, 'wed')} />
             </td>
@@ -149,8 +176,12 @@ const DataGrid = () => {
 
           {/* THURSDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Thu</Text></td>
-            <td><Text p='1rem' align='center'>6 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Thu</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[4])}</Text>
+            </td>
             <td>
               <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.thu.task} onChange={(e) => handleChange(e, 'thu')} />
             </td>
@@ -160,13 +191,19 @@ const DataGrid = () => {
             <td>
               <Input border='none' borderRadius='0px' type='time' name='timeOut' value={entries.thu.timeOut} onChange={(e) => handleChange(e, 'thu')} />
             </td>
-            <td><Text p='1rem' align='center'></Text></td>
+            <td>
+              <Text p='1rem' align='center'></Text>
+            </td>
           </tr>
 
           {/* FRIDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Fri</Text></td>
-            <td><Text p='1rem' align='center'>7 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Fri</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[5])}</Text>
+            </td>
             <td>
               <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.fri.task} onChange={(e) => handleChange(e, 'fri')} />
             </td>
@@ -181,8 +218,12 @@ const DataGrid = () => {
 
           {/* SATURDAY */}
           <tr>
-            <td><Text p='1rem' align='center'>Sat</Text></td>
-            <td><Text p='1rem' align='center'>8 Jun 24</Text></td>
+            <td>
+              <Text p='1rem' align='center'>Sat</Text>
+            </td>
+            <td>
+              <Text p='1rem' align='center'>{days && getDateString(days[6])}</Text>
+            </td>
             <td>
               {/* <Input border='none' borderRadius='0px' textAlign='center' size='lg' name='task' value={entries.mon.task} onChange={(e) => handleChange(e, 'mon')} /> */}
               <Autocomplete suggestions={suggestions} value='Weekend - Saturday' />
